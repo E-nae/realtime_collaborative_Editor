@@ -1,9 +1,9 @@
 📝 Real-time Collaboration Editor (Notion Clone MVP)
-  Next.js, Tiptap, Hocuspocus를 활용한 실시간 협업 에디터 프로젝트입니다.
-  사용자들이 동시에 문서를 편집할 수 있으며, 작성된 내용은 Supabase(PostgreSQL)에 바이너리 형태로 영구 저장됩니다.
+  - Next.js, Tiptap, Hocuspocus를 활용한 실시간 협업 에디터 프로젝트입니다.
+  - 사용자들이 동시에 문서를 편집할 수 있으며, 작성된 내용은 Supabase(PostgreSQL)에 바이너리 형태로 영구 저장됩니다.
 
 🚨 The Critical Issue: 5시간의 디버깅 사투 (Version Mismatch)
-  이 프로젝트를 진행하며 가장 치명적이었고 해결하기 힘들었던 기술적 이슈를 공유합니다.
+  : 이 프로젝트를 진행하며 가장 치명적이었고 해결하기 힘들었던 기술적 이슈를 공유합니다.
 
 🛑 문제 상황 (Symptoms)
   실시간 동기화 기능을 구현하던 중, WebSocket 연결은 성공했으나 데이터 동기화(Sync)만 되지 않는 기현상이 발생했습니다.
@@ -23,7 +23,7 @@
 ✅ 해결 (Solution)
   package.json의 의존성을 정리하고, Client 측 라이브러리 버전을 Server와 동일하게 맞추어 해결했습니다.
   
-  [Diff]
+  Diff
   // frontend/package.json
   dependencies {
     -  "@hocuspocus/provider": "^2.15.3",
@@ -53,7 +53,7 @@
     메모리 휘발성을 방지하기 위해 PostgreSQL에 데이터를 저장합니다.
     ON CONFLICT 구문을 활용한 효율적인 Upsert(Update + Insert) 로직을 구현했습니다.
 
-  [TypeScript]
+  TypeScript
   // server.ts - Database Extension
   store: async ({ documentName, state }) => {
     await sql`
@@ -73,21 +73,21 @@
   1. Database Setup (Supabase)
     Supabase에서 SQL Editor를 열고 다음 쿼리를 실행합니다.
     
-    [SQL]
+    SQL
     CREATE TABLE documents (
       name text PRIMARY KEY,
       data bytea NOT NULL
     );
     
   2. Backend Server
-    [Bash]
+    Bash
     cd notion
     # .env 파일 생성 및 DATABASE_URL 설정 필요
     npm install
     npm run dev
     # Server running at ws://127.0.0.1:4010
   3. Frontend Client
-    [Bash]
+    Bash
     cd views
     npm install
     npm run dev
