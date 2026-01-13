@@ -19,6 +19,7 @@
     "@hocuspocus/extension-redis": "^3.4.3",
     "@hocuspocus/server": "^3.4.3",
     "@upstash/redis": "^1.36.1",
+    "cross-env": "^10.1.0",
     "dotenv": "^17.2.3",
     "express": "^5.2.1",
     "ioredis": "^5.9.1",
