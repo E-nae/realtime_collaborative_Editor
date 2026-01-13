@@ -17,7 +17,7 @@ export default function Home() {
     const doc = new Y.Doc()
 
     const newProvider = new HocuspocusProvider({
-      url: 'wss://queue-reservation.onrender.com:4000', 
+      url: `wss://${process.env.NEXT_PUBLIC_SERVER}:${process.env.NEXT_PUBLIC_PORT}`, 
       name: 'test',
       document: doc,
       
