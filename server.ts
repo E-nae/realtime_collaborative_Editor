@@ -3,11 +3,13 @@ import { Server } from '@hocuspocus/server'
 import { Database } from '@hocuspocus/extension-database'
 import postgres from 'postgres'
 
+const PORT = Number(process.env.PORT) || 4010;
+
 /** postgres 사용을 위해 supabase 이용 */
 const sql = postgres(process.env.DATABASE_URL as string);
 
 const server = new Server({
-  port: 4010,
+  port: PORT,
 
   extensions: [
     new Database({
@@ -39,5 +41,5 @@ const server = new Server({
 })
 
 server.listen().then(() => {
-  console.log('🚀 Hocuspocus server running at ws://127.0.0.1:4010')
+  console.log('🚀 Hocuspocus server running');
 })
