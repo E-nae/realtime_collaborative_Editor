@@ -11,6 +11,7 @@ import CollaborationCursor from '@tiptap/extension-collaboration-cursor'
 export default function Home() {
   // 1. Provider를 에디터에 넘겨주기 위해 state로 관리
   const [provider, setProvider] = useState<any>(null);
+  const [status, setStatus] = useState<'waking' | 'ready' | 'offline'>('waking');
 
   // 2. 연결 설정 (useEffect)
   useEffect(() => {
@@ -20,9 +21,17 @@ export default function Home() {
       url: process.env.NEXT_PUBLIC_SERVER!, 
       name: 'test',
       document: doc,
+      // token: 'user-123',
       
+      onStatus: ({ status }) => {
+        if (status === 'connecting') setStatus('waking');
+        if (status === 'connected') setStatus('ready');
+        if (status === 'disconnected') setStatus('offline');
+      },
+    
       onConnect() {
         console.log('CONNECTED');
+        
       },
       onSynced() {
         console.log('SYNCED');
@@ -72,7 +81,14 @@ export default function Home() {
   return (
     <div className="p-10 max-w-4xl mx-auto">
       <h1 className="text-2xl font-bold mb-4">Tiptap 협업 에디터</h1>
-      
+
+      {status !== 'ready' && (
+        <div className="mb-4 rounded bg-yellow-100 p-3 text-yellow-800">
+          {status === 'waking' && '잠들어 있는 Render 서버를 깨우는 중입니다. 잠시만 기다려주세요'}
+          {status === 'offline' && '서버 연결 끊김'}
+        </div>
+      )}
+
       {/* 상태 표시 */}
       <div className="mb-4 p-2 bg-gray-100 rounded text-sm font-mono">
         Status: {provider.status} | Synced: {provider.isSynced ? 'YES' : 'NO'}
