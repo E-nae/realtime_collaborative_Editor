@@ -23,10 +23,9 @@
 
 | Tech | Usage |
 | :--- | :--- |
-| **Node.js / Express (ts-node)** | 서버 |
+| **Node.js / TypeScript (tsx)** | 서버 |
 | **@hocuspocus/server** | Yjs 문서 동기화 WebSocket 서버 |
 | **postgres.js / Supabase** | PostgreSQL 연동 및 문서 저장 |
-| **TypeScript** | 정적 타입 |
 
 ---
 
@@ -114,8 +113,7 @@ Tiptap 에디터와 Hocuspocus Provider는 브라우저 API에 의존하므로 �
 
 ```
 .
-├── server.ts     # Hocuspocus 서버 설정 및 문서 저장 로직
-├── index.ts      # 서버 엔트리포인트
+├── server.ts     # 서버 진입점 — Hocuspocus 설정 및 문서 저장 로직
 └── views/        # Next.js 프론트엔드
 ```
 
