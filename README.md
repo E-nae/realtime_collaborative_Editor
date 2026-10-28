@@ -141,7 +141,7 @@ pnpm install
 pnpm dev
 ```
 
-`ws://127.0.0.1:4010` 에서 대기합니다.
+`ws://127.0.0.1:10000` 에서 대기합니다. (`PORT` 환경변수로 바꿀 수 있습니다.)
 
 ### 3. 프론트엔드
 
@@ -152,6 +152,36 @@ pnpm dev
 ```
 
 `http://localhost:3000` 에서 확인할 수 있습니다.
+
+---
+
+## 배포
+
+- **프론트엔드** — Cloudflare Pages (정적 내보내기)
+- **서버** — Fly.io (`Dockerfile`, `fly.toml`)
+
+### 서버 (Fly.io)
+
+처음 한 번만 앱을 만들고 DB 주소를 등록합니다. 앱 이름은 `fly.toml`의 `app` 값과 같아야 합니다.
+
+```bash
+fly apps create realtime-collaborative-editor
+fly secrets set DATABASE_URL="postgres://..."
+```
+
+이후에는 배포 명령만 실행하면 됩니다.
+
+```bash
+fly deploy
+fly scale count 1
+```
+
+- 서버가 멈추면 WebSocket 연결이 끊기므로 `fly.toml`에서 자동 정지를 꺼 두었습니다.
+- 서버 간 동기화 장치가 없으므로 머신은 **1대만** 실행해야 합니다. 2대 이상이면 접속자끼리 편집 내용이 공유되지 않습니다.
+
+### 프론트엔드 (Cloudflare Pages)
+
+환경변수 `NEXT_PUBLIC_SERVER`를 `wss://<앱이름>.fly.dev`로 설정한 뒤 다시 빌드합니다. 정적 내보내기라 값이 빌드 시점에 코드에 들어가므로, 주소를 바꾸면 반드시 재배포해야 합니다.
 
 ---
 

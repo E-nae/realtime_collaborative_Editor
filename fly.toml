@@ -1,0 +1,24 @@
+app = "realtime-collaborative-editor"
+primary_region = "nrt"
+
+[build]
+
+[env]
+  PORT = "10000"
+
+[http_service]
+  internal_port = 10000
+  force_https = true
+  # 서버가 멈추면 WebSocket 연결이 끊기므로 항상 1대를 켜 둠
+  auto_stop_machines = "off"
+  auto_start_machines = true
+  min_machines_running = 1
+
+  [http_service.concurrency]
+    type = "connections"
+    soft_limit = 500
+    hard_limit = 1000
+
+[[vm]]
+  size = "shared-cpu-1x"
+  memory = "256mb"
