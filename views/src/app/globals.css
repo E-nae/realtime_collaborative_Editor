@@ -1,6 +1,120 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg: #ffffff;
+  --ink: #1b2130;       /* 본문 글자: 남색 잉크 */
+  --muted: #6b7280;     /* 보조 글자 */
+  --rule: #e5e7eb;      /* 구분선 */
+  --subtle: #f6f7f9;    /* 코드·인용 바탕 */
+  --ok: #2b9a66;
+  --wait: #d98a00;
+  --down: #e5484d;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #12151c;
+    --ink: #e6e8ee;
+    --muted: #9aa1ae;
+    --rule: #2a2f3a;
+    --subtle: #1b1f28;
+  }
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-rule: var(--rule);
+  --color-subtle: var(--subtle);
+}
+
+html,
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-plex), system-ui, sans-serif;
+  word-break: keep-all; /* 한글 단어 중간에서 줄바꿈하지 않기 */
+}
+
+:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+}
+
+/* 서버를 깨우는 동안 상단 바 아래에 흐르는 선 */
+@keyframes sweep {
+  from { transform: translateX(-100%); }
+  to   { transform: translateX(250%); }
+}
+.sweep { animation: sweep 1.6s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .sweep { animation: none; width: 100% !important; opacity: 0.4; }
+}
+
+/* ---------- 에디터 ---------- */
+.ProseMirror {
+  min-height: 60vh;
+  font-size: 17px;
+  line-height: 1.8;
+  outline: none;
+}
+.ProseMirror > * + * { margin-top: 0.75em; }
+.ProseMirror h1,
+.ProseMirror h2,
+.ProseMirror h3 {
+  font-weight: 600;
+  line-height: 1.35;
+  letter-spacing: -0.02em;
+}
+.ProseMirror h1 { font-size: 2rem; margin-top: 1.2em; }
+.ProseMirror h2 { font-size: 1.5rem; margin-top: 1.2em; }
+.ProseMirror h3 { font-size: 1.2rem; margin-top: 1em; }
+.ProseMirror > :first-child { margin-top: 0; }
+.ProseMirror ul { list-style: disc; padding-left: 1.4rem; }
+.ProseMirror ol { list-style: decimal; padding-left: 1.4rem; }
+.ProseMirror li::marker { color: var(--muted); }
+.ProseMirror blockquote {
+  border-left: 2px solid var(--ink);
+  padding-left: 1rem;
+  color: var(--muted);
+}
+.ProseMirror code {
+  background: var(--subtle);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  padding: 0.05em 0.35em;
+  font-size: 0.9em;
+}
+.ProseMirror pre {
+  background: var(--subtle);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  padding: 14px 16px;
+  font-size: 0.9em;
+}
+.ProseMirror pre code { background: none; border: 0; padding: 0; }
+.ProseMirror hr { border: 0; border-top: 1px solid var(--rule); margin: 2em 0; }
+
+/* 다른 사람 커서: 색은 확장 기능이 inline style로 넣어준다 */
+.collaboration-cursor__caret {
+  border-left: 2px solid;
+  margin-left: -1px;
+  margin-right: -1px;
+  pointer-events: none;
+  position: relative;
+  word-break: normal;
+}
+.collaboration-cursor__label {
+  position: absolute;
+  top: -1.55em;
+  left: -2px;
+  padding: 1px 6px;
+  border-radius: 3px 3px 3px 0;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.5;
+  white-space: nowrap;
+  user-select: none;
 }
